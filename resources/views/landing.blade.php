@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <title>Todo App</title>
 </head>
@@ -69,13 +70,18 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">Modal title</h5>
-        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+        <button type="button" class="close btn btn-danger" data-bs-dismiss="modal" aria-label="Close">
             
-          <span aria-hidden="true">x</span>
+          <span aria-hidden="true" ><i class="fa fa-times"></i></span>
         </button>
       </div>
       <div class="modal-body">
-        <p>Modal body text goes here.</p>
+        <div class="form-wrapper">
+            <div class="form-group">
+                <label for="" id="task">Enter Task *</label>
+                <input type="text" id="task" class="form-control" placeholder="enter task...">
+            </div>
+        </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-primary">Save changes</button>
@@ -94,6 +100,14 @@
             $("#createModal").modal('toggle');
 
         })
+
+        // removing aria-hidden issue in modern browsers on bootstrap modal
+        document.addEventListener('hidden.bs.modal', function (event) {
+  
+            if (document.activeElement) {
+            document.activeElement.blur();
+            }
+        });
     </script>
 </body>
 </html>
