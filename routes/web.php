@@ -17,7 +17,4 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/landing',function()
-{
-    return view('landing');
-});
+Route::resource('task','App\Http\Controllers\TaskController');

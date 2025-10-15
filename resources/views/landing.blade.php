@@ -78,13 +78,13 @@
       <div class="modal-body">
         <div class="form-wrapper">
             <div class="form-group">
-                <label for="" id="task">Enter Task *</label>
-                <input type="text" id="task" class="form-control" placeholder="enter task...">
+                <label for="task" >Enter Task *</label>
+                <input type="text" id="task"  value="" class="form-control" placeholder="enter task...">
             </div>
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary">Save changes</button>
+        <button type="button" class="btn btn-primary saveBtn">Save changes</button>
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
       </div>
     </div>
@@ -97,9 +97,43 @@
 
     <script>
         $(document).on('click','.createBtn',function(){
+            $("#task").val("")
             $("#createModal").modal('toggle');
 
         })
+
+        // task submition
+        $(document).on('click','.saveBtn',function()
+        {
+            let taskInput=$("#task");  //caching selector 
+            let task=taskInput.val().trim()
+          
+            if(!task)
+            {
+                showErrorMessage("task should not be empty !")
+                taskInput.focus();
+                
+                return false;
+            }
+
+            if(task.length < 10)
+            {
+                showErrorMessage("should be atleast 10 characters")
+                taskInput.focus();
+                return false;
+            }
+        });
+
+        // function for showing validation error
+
+        function showErrorMessage(msg)
+        {
+            if(msg)
+            {
+               alert(msg)
+            }
+          
+        }
 
         // removing aria-hidden issue in modern browsers on bootstrap modal
         document.addEventListener('hidden.bs.modal', function (event) {
