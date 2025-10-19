@@ -54,12 +54,18 @@
                     </tr>
                 </thead>
                 <tbody>
+                    @forelse($tasks as $task)
                     <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        <td>{{$loop->index+1}}</td>
+                        <td>{{$task->content}}</td>
+                        <td>{{$task->created_at}}</td>
                         <td></td>
                     </tr>
+                    @empty
+                        <tr>
+                            <td colspan='4'>no data found...</td>
+                        </tr>
+                    @endforelse
                 </tbody>
             </table>
          </div>
@@ -122,6 +128,35 @@
                 taskInput.focus();
                 return false;
             }
+
+            // validation ends
+
+            $.ajax({
+                url:"{{route('task.store')}}",
+                type:"POST",
+                data:{task,'_token':"{{csrf_token()}}"},
+                success:function(res)
+                {
+                   if(res.status)
+                   {
+                        alert('success');
+                   }
+                   else{
+                    
+                        if(res.errors)
+                        {
+                            showErrorMessage(res.errors.task[0])
+                        }
+                        
+                   }
+                },
+                error:function(err,msg)
+                {
+                    console.log(err);
+                    console.log(msg)
+                }
+            });
+
         });
 
         // function for showing validation error

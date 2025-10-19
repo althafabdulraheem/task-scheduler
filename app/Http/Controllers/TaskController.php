@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use App\Models\Task;
+use Validator;
 
 class TaskController extends Controller
 {
@@ -12,7 +13,8 @@ class TaskController extends Controller
      */
     public function index()
     {
-        return view('landing');
+        $tasks=Task::all();
+        return view('landing',['tasks'=>$tasks]);
     }
 
     /**
@@ -28,7 +30,26 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
+       $validator=Validator::make($request->all(),['task'=>'required|min:10'],
+                                                    ['task.required'=>'task field should be required',
+                                                    'task.min'=>'minimum 10 characters required']);
         
+        if($validator->fails())
+        {
+            return response()->json(['status'=>false,'errors'=>$validator->errors()->getMessageBag()]);
+        }
+
+        $task=new Task();
+        $task->content=$request->task;
+        if($task->save())
+        {
+            return response()->json(['status'=>true,'message'=>'successfully stored'],200);
+        }
+        else{
+            return response()->json(['status'=>false,'message'=>'error while inserting'],500);
+
+        }
+            
     }
 
     /**
